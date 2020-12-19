@@ -1,6 +1,6 @@
 import './chatPanel.css';
-import NewMessage from '../newMessage/NewMessage';
-import Message from '../message/Message';
+import NewMessage from '../newMessage/newMessage';
+import Message from '../message/message';
 
 function ChatPanel(props) {
   return (
@@ -10,7 +10,7 @@ function ChatPanel(props) {
               return <Message content={message} key={message.id} />
           })}
       </div>
-      <NewMessage />
+      <NewMessage sendMessage={props.sendMessage} />
     </div>
   );
 }

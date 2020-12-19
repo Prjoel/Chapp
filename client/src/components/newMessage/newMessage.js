@@ -1,5 +1,5 @@
 import './newMessage.css';
-import {useState, useEffect} from 'React';
+import {useState, useEffect} from 'react';
 
 function NewMessage(props) {
   const [newMessage, setNewMessage] = useState('');
@@ -7,10 +7,13 @@ function NewMessage(props) {
     const value = e.target.value;
     setNewMessage(value);
   }
+  function handleSubmit(){
+    props.sendMessage(newMessage)
+  }
   return (
     <div>
       <input type="text" value={newMessage} onChange={handleChange} />
-      <button className="material-icons md-dark">send</button>
+      <button onClick={handleSubmit} ><i className="material-icons md-dark">send</i></button>
     </div>
   );
 }
