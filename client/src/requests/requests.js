@@ -1,6 +1,9 @@
 const requests = {
-    sendMessage() {
-        console.log('---------- ------------- ')
+    sendMessage(ss) {
+        console.log('------ ', ss)
+    },
+    getUsers() {
+        return 1
     }
 }
 

@@ -1,6 +1,6 @@
 import './chatPanel.css';
-import NewMessage from '../newMessage/newMessage';
-import Message from '../message/message';
+import NewMessage from './newMessage/newMessage';
+import Message from './message/message';
 
 function ChatPanel(props) {
   return (
