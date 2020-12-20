@@ -5,7 +5,7 @@ import Message from './message/message';
 function ChatPanel(props) {
   return (
     <div className="chat-panel">
-      <div>
+      <div className="chat-panel__messages">
           {props.messages.map(message => {
               return <Message content={message} key={message.id} />
           })}

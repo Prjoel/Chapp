@@ -1,0 +1,43 @@
+.chat-panel {
+  position: relative;
+  background-color: whitesmoke;
+  color: black;
+  width: 75%;
+  
+}
+
+.new-message {
+  width: 100%;
+  height: 2rem;
+  position: absolute;
+  bottom: 0.5rem;
+  right: 0;
+  display: flex;
+  justify-content: space-between;
+}
+.new-message input {
+  margin-left: 0.5rem;
+  width: calc(100% - 3rem);
+}
+.new-message button {
+  margin-right: 0.5rem;
+  width: 2.5rem;
+}
+
+.chat-panel__messages {
+  width: 100%;
+  height: calc(100% - 3.5rem);
+  position: absolute;
+  top: 0;
+  margin: 0.5rem;
+}
+.chat-panel__messages___text {
+  padding-left: 0.5rem;
+}
+.chat-panel__messages--others {
+  text-align: left;
+}
+
+.chat-panel__messages--user {
+  text-align: right;
+}

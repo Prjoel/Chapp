@@ -8,10 +8,11 @@ function NewMessage(props) {
     setNewMessage(value);
   }
   function handleSubmit(){
-    props.sendMessage(newMessage)
+    props.sendMessage(newMessage);
+    setNewMessage('');
   }
   return (
-    <div>
+    <div className="new-message">
       <input type="text" value={newMessage} onChange={handleChange} />
       <button onClick={handleSubmit} ><i className="material-icons md-dark">send</i></button>
     </div>

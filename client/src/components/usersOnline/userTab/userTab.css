@@ -1,0 +1,11 @@
+.users-online__user-tab {
+  width: 100%;
+  text-align: left;
+  height: 2rem;
+  background-color: rgb(93, 1, 121);
+  margin-bottom: 0.3rem;
+  margin-right: 0.3rem;
+  line-height: 1.5rem;
+  border-radius: 3px;
+  padding-left: 0.4rem;
+}

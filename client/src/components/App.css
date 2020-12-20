@@ -12,7 +12,25 @@
 .material-icons.md-light { color: rgba(255, 255, 255, 1); }
 .material-icons.md-light.md-inactive { color: rgba(255, 255, 255, 0.3); }
 /*------------------------------------------------------------------------*/
+html, body {
+  box-sizing: border-box;
+  margin: 0;
+  font-family: 'Raleway', Helvetica, sans-serif;
+}
+
 .App {
   text-align: center;
-  background-color: beige;
+  background-color: rgba(93, 1, 121, 0.6);
+  color: rgb(255, 255, 255 );
+  display: flex;
+  justify-content: space-between;
+  height: calc(100vh - 2rem);
+  margin: 1rem;
+  box-shadow: 6px 6px 5px rgb(120, 138, 135);
+}
+
+.main-panel {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
 }
