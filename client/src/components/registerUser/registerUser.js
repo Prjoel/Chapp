@@ -6,7 +6,12 @@ function RegisterUser(props) {
   
   function handleSubmit(e){
     e.preventDefault();
-    props.registerUser(nickname);
+    const id = new Date().getTime()
+    const user = {
+      nickname,
+      id
+    }
+    props.registerUser(user);
   }
   function handleChange(e) {
     const value = e.target.value;

@@ -22,7 +22,15 @@ function App() {
     setUsers(activeUsers);
   })
   //useEffect(fetchMessages); */
+  useEffect(lookForUser);
 
+  function lookForUser() {
+    const user = localStorage.getItem('user');
+    const userParsed = JSON.parse(user);
+    if(userParsed && userParsed.nickname) {
+      setDisplayChatPanel(true);
+    } else return 0
+  }
   function fetchMessages() {
     const mss = requests.getMessages()
     setMessages(mss);
@@ -31,11 +39,10 @@ function App() {
     requests.sendMessage(message);
     // fetchMessages()
   }
-  async function registerUser(user) {
-    // let response = await requests.registerUser(user);
-    // if(response.registered) {
-       setDisplayChatPanel(true);
-    // } else console.log(response);
+  function registerUser(user) {
+    const newUser = JSON.stringify(user);
+    localStorage.setItem('user', newUser);
+    lookForUser()
   }
 
   return (
