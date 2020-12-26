@@ -5,7 +5,6 @@ import ChatPanel from "./chatPanel/chatPanel";
 import { socket } from "../requests/requests";
 import UsersOnline from "./usersOnline/usersOnline";
 import RegisterUser from "./registerUser/registerUser";
-const cl = console.log;
 
 function App() {
   const [messages, setMessages] = useState([]);
@@ -18,7 +17,6 @@ function App() {
   useEffect(() => {
 
     socket.on("chat message", function (msg) {
-      console.log("incomming message: ", msg);
       setMessages((msgs) => {
         console.log(msgs);
         const updatedMsgs = [...msgs, msg]; //msgs.push(msg);

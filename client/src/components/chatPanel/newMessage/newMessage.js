@@ -1,5 +1,5 @@
 import './newMessage.css';
-import {useState, useEffect} from 'react';
+import { useState } from 'react';
 
 function NewMessage(props) {
   const [newMessage, setNewMessage] = useState('');
@@ -7,14 +7,17 @@ function NewMessage(props) {
     const value = e.target.value;
     setNewMessage(value);
   }
-  function handleSubmit(){
-    props.sendMessage(newMessage);
-    setNewMessage('');
+  function handleSubmit(e) {
+    const msg = newMessage.trim();
+    if (e.key === 'Enter' || e.target.id === 'send-message-btn' && msg) {
+      props.sendMessage(newMessage);
+      setNewMessage('');
+    }
   }
   return (
     <div className="new-message">
-      <input type="text" value={newMessage} onChange={handleChange} />
-      <button onClick={handleSubmit} ><i className="material-icons md-dark">send</i></button>
+      <input type="text" value={newMessage} onKeyDown={handleSubmit} onChange={handleChange} />
+      <i onClick={handleSubmit} id="send-message-btn" className="material-icons md-dark">send</i>
     </div>
   );
 }
