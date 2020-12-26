@@ -6,9 +6,9 @@ function ChatPanel(props) {
   return (
     <div className="chat-panel">
       <div className="chat-panel__messages">
-          {props.messages.map(message => {
-              return <Message content={message} key={message.id} />
-          })}
+        {props.messages.map(message => {
+          return <Message content={message} key={message.id} />
+        })}
       </div>
       <NewMessage sendMessage={props.sendMessage} />
     </div>
