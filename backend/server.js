@@ -27,7 +27,7 @@ const io = socket(
   {
     //  this obj keeps the options for the connections.
     cors: {
-      origin: "*", // meanwhile this allows the client to reach the server, gotta be fixed to serve only one origin
+      origin: "http://localhost:3000", //to get this address do this: go to windows CLI and write "ipconfig". Choose IPv4 Address.
       methods: ["GET", "POST"],
     }
   }
