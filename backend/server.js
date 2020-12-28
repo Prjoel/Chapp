@@ -15,9 +15,8 @@ const corsOptions = {
   optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
 };
 //app.use( cors(corsOptions) );
-
 app.get("/", (req, res) => {
-  res.send({ response: "I am alive" }).status(200);
+  res.send('I\'m alive').status(200);
 });
 
 const io = socket(
@@ -27,8 +26,8 @@ const io = socket(
   {
     //  this obj keeps the options for the connections.
     cors: {
-      origin: "http://localhost:3000", 
-      methods: ["GET", "POST"],
+      origin: "http://localhost:3000",
+      methods: ["GET", "POST"]
     }
   }
 );
@@ -37,19 +36,37 @@ io.on("connection", (socket) => {
   console.log("a user connected");
   console.log(socket.id);
   socket.on("disconnect", () => {
-    console.log(`user with connection ${socket.id} disconnected`);
+
+    let disconnectedUser = users.findIndex(item => item.connectionId === socket.id);
+    if (disconnectedUser >= 0) {
+      users.splice(disconnectedUser, 1);
+      io.emit("send users", users);
+    }
   });
 
   socket.on("chat message", (msg) => {
+    cl(msg)
     const formatedMsg = formatMsg(msg);
-    io.emit("chat message", formatedMsg);
+    socket.broadcast.emit("chat message", formatedMsg);
   });
 
   socket.on("registered user", (user) => {
+    cl('--------' + user.nickname)
     let alreadyHere = users.find(item => item.id === user.id)
-    if (Object.keys(user).length === 2 && typeof user.nickname === 'string' && !alreadyHere) {
+    if (typeof user.nickname === 'string' && !alreadyHere) {
       users.push(user);
     }
     io.emit("send users", users);
   })
+
+  socket.on("typing", (typing) => {
+    const whoTypes = users.find(item => item.connectionId === socket.id);
+    //cl('typing xD xD', whoTypes.nickname)
+    let timeoutId;
+    if (whoTypes) {
+      socket.broadcast.emit("typing", { typing: true, whoTypes: whoTypes.nickname });
+      timeoutId = setTimeout(); //clearTimeout(timeoutId)
+    }
+  });
+
 });
