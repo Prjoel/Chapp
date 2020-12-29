@@ -16,8 +16,13 @@ function ChatPanel(props) {
       setWhoTypes(typer.nickname)
     })
   }, [])
+  useEffect(() => {
+    const msgsElements = document.querySelectorAll('.chat-panel__messages--others');
+    if (msgsElements[msgsElements.length - 1]) {
+      msgsElements[msgsElements.length - 1].scrollIntoView(true); //The scrollIntoView() method scrolls the specified element into the visible area of the browser window. Use CSS { scroll-behavior: smooth;} (not required) 
+    }
+  }, [props.messages])
 
-  
   return (
     <div className="chat-panel">
       <div className="chat-panel__messages">
@@ -25,7 +30,7 @@ function ChatPanel(props) {
           return <Message content={message} key={message.id} />
         })}
       </div>
-      {typing && `${whoTypes} is typing...` }
+      {typing && `${whoTypes} is typing...`}
       <NewMessage sendMessage={props.sendMessage} />
     </div>
   );

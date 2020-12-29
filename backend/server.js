@@ -3,6 +3,7 @@ const app = express();
 const socket = require("socket.io");
 const cors = require("cors");
 const { formatMsg } = require('./middleware/formats');
+const bodyParser = require('body-parser');
 
 const PORT = process.env.PORT || 8000;
 
@@ -11,12 +12,21 @@ const cl = console.log;
 const users = [];
 
 const corsOptions = {
-  origin: "http://127.0.0.1:3000/",
+  origin: "http://localhost:3000",
   optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
 };
-//app.use( cors(corsOptions) );
+
+app.use( cors(corsOptions) );
+app.use(bodyParser.json());
+
 app.get("/", (req, res) => {
   res.send('I\'m alive').status(200);
+});
+
+app.post("/", (req, res) => {
+  const value = req.body;
+  console.log(value);
+  res.sendStatus(201);
 });
 
 const io = socket(
@@ -59,13 +69,14 @@ io.on("connection", (socket) => {
     io.emit("send users", users);
   })
 
+
   socket.on("typing", (typing) => {
     const whoTypes = users.find(item => item.connectionId === socket.id);
     //cl('typing xD xD', whoTypes.nickname)
     let timeoutId;
     if (whoTypes) {
       socket.broadcast.emit("typing", { typing: true, whoTypes: whoTypes.nickname });
-      timeoutId = setTimeout(); //clearTimeout(timeoutId)
+      //timeoutId = setTimeout(); //clearTimeout(timeoutId)
     }
   });
 
