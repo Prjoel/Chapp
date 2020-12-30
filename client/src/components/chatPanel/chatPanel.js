@@ -7,15 +7,19 @@ import Message from './message/message';
 function ChatPanel(props) {
 
   const [typing, setTyping] = useState(false);
-  const [whoTypes, setWhoTypes] = useState('')
+  const [whoTypes, setWhoTypes] = useState('');
+  const [timerId, setTimerId] = useState(1);
 
   useEffect(() => {
-    socket.on("typing", (typer) => {
-      console.log(typer)
-      setTyping(true)
-      setWhoTypes(typer.nickname)
+    socket.on("typing", (typer) => { //here we listen for "typing" events
+      clearTimeout(timerId); // then we cancel previous setTimeout() to not have flickering text 
+      const id = setTimeout(() => setTyping(false), 1000); // programming a timer to hide the "typing text"
+      setTimerId(id); // saving the timer id to be able to cancel it later
+      setTyping(true); // this allows the "typing text" to be shown 
+      setWhoTypes(typer.nickname);
     })
   }, [])
+
   useEffect(() => {
     const msgsElements = document.querySelectorAll('.chat-panel__messages--others');
     if (msgsElements[msgsElements.length - 1]) {

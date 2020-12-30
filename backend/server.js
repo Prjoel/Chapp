@@ -16,7 +16,7 @@ const corsOptions = {
   optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
 };
 
-app.use( cors(corsOptions) );
+app.use(cors(corsOptions));
 app.use(bodyParser.json());
 
 app.get("/", (req, res) => {
@@ -33,8 +33,7 @@ const io = socket(
   app.listen(PORT, () => {
     console.log("listening on port", PORT);
   }),
-  {
-    //  this obj keeps the options for the connections.
+  {//  this obj keeps the options for the socket connections.
     cors: {
       origin: "http://localhost:3000",
       methods: ["GET", "POST"]
@@ -75,7 +74,7 @@ io.on("connection", (socket) => {
     //cl('typing xD xD', whoTypes.nickname)
     let timeoutId;
     if (whoTypes) {
-      socket.broadcast.emit("typing", { typing: true, whoTypes: whoTypes.nickname });
+      socket.broadcast.emit("typing", { typing: true, nickname: whoTypes.nickname });
       //timeoutId = setTimeout(); //clearTimeout(timeoutId)
     }
   });
