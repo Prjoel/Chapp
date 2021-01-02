@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import "./App.css";
-import {deepCopy, checkIfTyping } from "../utils/utils";
+import { deepCopy } from "../utils/utils";
 // components ...
 import ChatPanel from "./chatPanel/chatPanel";
 import { socket } from "../requests/requests";
@@ -10,9 +10,12 @@ import RegisterUser from "./registerUser/registerUser";
 
 function App() {
   const [messages, setMessages] = useState([]);
+  const [privateMsgs, setPrivateMsgs] = useState([]);
   const [users, setUsers] = useState([]);
   const [displayChatPanel, setDisplayChatPanel] = useState(false);
   const [currentUser, setCurrentUser] = useState({});
+  const [currentChat, setCurrentChat] = useState({ room: "public" });
+
 
   console.error("----- App component rendered. ", displayChatPanel);
 
@@ -28,11 +31,14 @@ function App() {
   useEffect(() => {
     socket.on("chat message", function (msg) {
       console.log(msg);
-      setMessages((msgs) => {
-        console.log(msgs);
-        const updatedMsgs = [...msgs, msg]; //msgs.push(msg);
-        return updatedMsgs;
-      });
+      setMessages(msgs => [...msgs, msg]);
+    });
+  }, []);
+
+  useEffect(() => {
+    socket.on("private message", function (msg) {
+      console.log("private message", msg);
+      setPrivateMsgs(msgs => [...msgs, msg]);
     });
   }, []);
 
@@ -44,7 +50,7 @@ function App() {
       socket.emit("registered user", user);
     })
   }, [currentUser])
- 
+
   function registerUser(user) {
     const newUser = JSON.stringify(user);
     localStorage.setItem("user", newUser);
@@ -60,24 +66,43 @@ function App() {
     } else return 0;
   }
 
-  function sendMessage(message) {
+  function sendMessage(message, privateMsg) {
     const newMsg = {
       text: message,
       author: currentUser,
     }
-    setMessages((msgs) => {
-      const newMsgs = deepCopy(msgs, copy => [...copy, newMsg] );
-      return newMsgs;
-    });
-    socket.emit("chat message", newMsg);
+    if (!privateMsg) {
+      setMessages(msgs => [...msgs, newMsg]);
+      socket.emit("chat message", newMsg);
+    } else {
+      setPrivateMsgs(msgs => [...msgs, newMsg]);
+      socket.emit("private message", currentChat.room, newMsg)
+    }
   }
 
+  function whichChatPanel() {
+    if (currentChat.room === 'public') {
+      return <ChatPanel privateMsg={false} messages={messages} sendMessage={sendMessage} />
+    } else {
+      let msgs;
+      try {
+        msgs = privateMsgs.filter(item => item.author.socketId === currentChat.room || item.author.socketId === currentUser.socketId);
+      } catch (e) {
+        console.log('error del mapeo', e)
+      }
+      return <ChatPanel privateMsg={true} messages={msgs} sendMessage={sendMessage} />
+    }
+  }
+
+  function getUser(user) {
+    setCurrentChat({ room: user.socketId })
+  }
   return (
     <div className="App">
       {displayChatPanel ? (
         <div className="main-panel">
-          <UsersOnline users={users} />
-          <ChatPanel messages={messages} sendMessage={sendMessage} />
+          <UsersOnline users={users} getUser={getUser} />
+          {whichChatPanel()}
         </div>
       ) : (
           <RegisterUser registerUser={registerUser} />

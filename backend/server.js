@@ -43,7 +43,7 @@ const io = socket(
 
 io.on("connection", (socket) => {
   console.log("a user connected");
-  console.log(socket.id);
+  //console.log(socket.id, socket.handshake, socket.rooms);
   socket.on("disconnect", () => {
 
     let disconnectedUser = users.findIndex(item => item.connectionId === socket.id);
@@ -54,13 +54,13 @@ io.on("connection", (socket) => {
   });
 
   socket.on("chat message", (msg) => {
-    cl(msg)
+    cl("chat message", msg)
     const formatedMsg = formatMsg(msg);
     socket.broadcast.emit("chat message", formatedMsg);
   });
 
   socket.on("registered user", (user) => {
-    cl('--------' + user.nickname)
+    user.socketId = socket.id;
     let alreadyHere = users.find(item => item.id === user.id)
     if (typeof user.nickname === 'string' && !alreadyHere) {
       users.push(user);
@@ -71,12 +71,15 @@ io.on("connection", (socket) => {
 
   socket.on("typing", (typing) => {
     const whoTypes = users.find(item => item.connectionId === socket.id);
-    //cl('typing xD xD', whoTypes.nickname)
-    let timeoutId;
     if (whoTypes) {
       socket.broadcast.emit("typing", { typing: true, nickname: whoTypes.nickname });
-      //timeoutId = setTimeout(); //clearTimeout(timeoutId)
     }
   });
 
+  socket.on("private message", (anotherSocketId, msg) => {
+    cl("private message", anotherSocketId, '-info-', msg)
+    msg.author.socketId = socket.id;
+    socket.to(anotherSocketId).emit("private message", msg);
+  })
+  
 });

@@ -15,7 +15,7 @@ function ChatPanel(props) {
       clearTimeout(timerId); // then we cancel previous setTimeout() to not have flickering text 
       const id = setTimeout(() => setTyping(false), 1000); // programming a timer to hide the "typing text"
       setTimerId(id); // saving the timer id to be able to cancel it later
-      setTyping(true); // this allows the "typing text" to be shown 
+      setTyping(true); // this allows the "user typing..." text to be shown 
       setWhoTypes(typer.nickname);
     })
   }, [])
@@ -35,7 +35,7 @@ function ChatPanel(props) {
         })}
       </div>
       {typing && `${whoTypes} is typing...`}
-      <NewMessage sendMessage={props.sendMessage} />
+      <NewMessage privateMsg={props.privateMsg} sendMessage={props.sendMessage} />
     </div>
   );
 }

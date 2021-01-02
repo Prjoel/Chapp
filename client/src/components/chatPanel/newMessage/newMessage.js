@@ -4,6 +4,7 @@ import { socket } from "../../../requests/requests";
 
 function NewMessage(props) {
   const [newMessage, setNewMessage] = useState('');
+
   function handleChange(e) {
     const value = e.target.value;
     socket.emit("typing", {typing: true})
@@ -12,7 +13,7 @@ function NewMessage(props) {
   function handleSubmit(e) {
     const msg = newMessage.trim();
     if ((e.key === 'Enter' || e.target.id === 'send-message-btn') && msg) {
-      props.sendMessage(newMessage);
+      props.sendMessage(newMessage, props.privateMsg);
       setNewMessage('');
     }
   }
