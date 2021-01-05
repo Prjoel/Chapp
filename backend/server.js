@@ -4,6 +4,7 @@ const socket = require("socket.io");
 const cors = require("cors");
 const { formatMsg } = require('./middleware/formats');
 const bodyParser = require('body-parser');
+const MsgService = require('./dbservice/messageService')
 
 const PORT = process.env.PORT || 8000;
 
@@ -53,12 +54,22 @@ io.on("connection", (socket) => {
     }
   });
 
-  socket.on("chat message", (msg) => {
+  socket.on("chat message", async (msg) => {
     cl("chat message", msg)
+    let date = new Date();
+    await MsgService.saveMsg({userId: msg.author.id, message: msg.text, date: date});
+    
     const formatedMsg = formatMsg(msg);
+    formatedMsg.isOwnMsg = false;
     socket.broadcast.emit("chat message", formatedMsg);
-  });
 
+  });
+  socket.on("private message", (anotherSocketId, msg) => {
+    cl("private message", anotherSocketId, '-info-', msg)
+    msg.author.socketId = socket.id;
+    msg.isOwnMsg = false;
+    socket.to(anotherSocketId).emit("private message", msg);
+  })
   socket.on("registered user", (user) => {
     user.socketId = socket.id;
     let alreadyHere = users.find(item => item.id === user.id)
@@ -76,10 +87,6 @@ io.on("connection", (socket) => {
     }
   });
 
-  socket.on("private message", (anotherSocketId, msg) => {
-    cl("private message", anotherSocketId, '-info-', msg)
-    msg.author.socketId = socket.id;
-    socket.to(anotherSocketId).emit("private message", msg);
-  })
-  
+
+
 });

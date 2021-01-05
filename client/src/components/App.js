@@ -70,6 +70,7 @@ function App() {
     const newMsg = {
       text: message,
       author: currentUser,
+      isOwnMsg: true // this prop if true sets the text on the right side of ChatPanel. On server side when broadcasting the message the prop is set to false. 
     }
     if (!privateMsg) {
       setMessages(msgs => [...msgs, newMsg]);
