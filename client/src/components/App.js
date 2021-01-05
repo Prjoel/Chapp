@@ -16,9 +16,6 @@ function App() {
   const [currentUser, setCurrentUser] = useState({});
   const [currentChat, setCurrentChat] = useState({ room: "public" });
 
-
-  console.error("----- App component rendered. ", displayChatPanel);
-
   useEffect(lookForUser, []);
 
   useEffect(() => {
@@ -96,7 +93,9 @@ function App() {
   }
 
   function getUser(user) {
-    setCurrentChat({ room: user.socketId })
+    if(user.socketId === socket.id) {//blocks action if user is the same that uses 
+      return 0
+    } else setCurrentChat({ room: user.socketId });
   }
   return (
     <div className="App">

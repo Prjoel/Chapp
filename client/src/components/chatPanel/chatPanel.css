@@ -15,10 +15,12 @@
   right: 0;
   display: flex;
   justify-content: space-between;
+  align-items: center;
 }
 .new-message input {
   margin-left: 0.5rem;
-  width: calc(100% - 3rem);
+  width: calc(100% - 3rem - 3rem); /* 100% - #send-message-btn and .new-message__insert-emoji-icon  */
+  height: 100%;
 }
 #send-message-btn {
   margin-right: 0.5rem;
@@ -45,4 +47,13 @@
 
 .chat-panel__messages--user {
   text-align: right;
+}
+.new-message__insert-emoji-icon {
+  cursor: pointer;
+  width: 2.5rem;
+}
+.emoji-panel {
+  position: absolute;
+  bottom: 2.25rem;
+  right: 0.25rem;
 }
