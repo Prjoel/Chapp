@@ -34,3 +34,7 @@ html, body {
   justify-content: space-between;
   width: 100%;
 }
+
+.highlighted {
+  text-shadow: 2px 2px 2px whitesmoke;
+}

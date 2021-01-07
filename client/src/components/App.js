@@ -15,6 +15,7 @@ function App() {
   const [displayChatPanel, setDisplayChatPanel] = useState(false);
   const [currentUser, setCurrentUser] = useState({});
   const [currentChat, setCurrentChat] = useState({ room: "public" });
+  const [tabsToHighlight, setTabsToHighlight] = useState([]);
 
   useEffect(lookForUser, []);
 
@@ -27,13 +28,22 @@ function App() {
 
   useEffect(() => {
     socket.on("chat message", function (msg) {
-      console.log(msg);
+      setTabsToHighlight(rooms => {
+        if (currentChat.room !== "public") { // Checking if the room from where the msg comes from is not the same as currentChat.
+          return [...rooms, "public"] // Passing the rooms to be highlighted. See getUser(), there we remove highlight once userTab is clicked.
+        } else return [...rooms]
+      })
+
+      console.log(currentChat.room, '¡?¡?¡?¡?', currentChat.room === "public");
       setMessages(msgs => [...msgs, msg]);
     });
   }, []);
 
   useEffect(() => {
     socket.on("private message", function (msg) {
+      if (currentChat.room !== msg.author.socketId) { // Checking if the room from where the msg comes from is not the same as currentChat.
+        setTabsToHighlight(rooms => [...rooms, msg.author.socketId]) // Passing the rooms to be highlighted. See getUser(), there we remove highlight once userTab is clicked.
+      }
       console.log("private message", msg);
       setPrivateMsgs(msgs => [...msgs, msg]);
     });
@@ -93,15 +103,21 @@ function App() {
   }
 
   function getUser(user) {
-    if(user.socketId === socket.id) {//blocks action if user is the same that uses 
+    if (user.socketId === socket.id) {//blocks action if userTab is the same than currentUser
       return 0
-    } else setCurrentChat({ room: user.socketId });
+    } else {
+      setCurrentChat({ room: user.socketId });
+      setTabsToHighlight(rooms => {
+        let filteredRooms = rooms.filter(item => item !== user.socketId);
+        return filteredRooms;
+      })
+    }
   }
   return (
     <div className="App">
       {displayChatPanel ? (
         <div className="main-panel">
-          <UsersOnline users={users} getUser={getUser} />
+          <UsersOnline users={users} getUser={getUser} tabsToHighlight={tabsToHighlight} />
           {whichChatPanel()}
         </div>
       ) : (

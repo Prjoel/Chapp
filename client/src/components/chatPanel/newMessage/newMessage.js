@@ -32,7 +32,7 @@ function NewMessage(props) {
     <div className="new-message">
       <input type="text" value={newMessage} onKeyDown={handleSubmit} onChange={handleChange} />
       {showEmojis && <span className="emoji-panel"><EmojiPicker onEmojiClick={onEmojiClick} /></span> }
-      <span onClick={showEmojiPanel} class="material-icons md-dark new-message__insert-emoji-icon">
+      <span onClick={showEmojiPanel} className="material-icons md-dark new-message__insert-emoji-icon">
         insert_emoticon
       </span>
       <i onClick={handleSubmit} id="send-message-btn" className="material-icons md-dark">send</i>
