@@ -28,16 +28,18 @@ function App() {
 
   useEffect(() => {
     socket.on("chat message", function (msg) {
-      setTabsToHighlight(rooms => {
-        if (currentChat.room !== "public") { // Checking if the room from where the msg comes from is not the same as currentChat.
-          return [...rooms, "public"] // Passing the rooms to be highlighted. See getUser(), there we remove highlight once userTab is clicked.
-        } else return [...rooms]
-      })
-
       console.log(currentChat.room, '¡?¡?¡?¡?', currentChat.room === "public");
       setMessages(msgs => [...msgs, msg]);
     });
-  }, []);
+  }, [])
+
+  useEffect(() => {
+    if (currentChat.room !== "public") { // Checking if the room from where the msg comes from is not the same as currentChat.
+      setTabsToHighlight(rooms => {
+        return [...rooms, "public"] // Passing the Public Room to be highlighted. See getUser(), there we remove highlight once Public Room is clicked.
+      })
+    }
+  }, [messages])
 
   useEffect(() => {
     socket.on("private message", function (msg) {
