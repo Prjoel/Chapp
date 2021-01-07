@@ -47,7 +47,7 @@ io.on("connection", (socket) => {
   //console.log(socket.id, socket.handshake, socket.rooms);
   socket.on("disconnect", () => {
 
-    let disconnectedUser = users.findIndex(item => item.connectionId === socket.id);
+    let disconnectedUser = users.findIndex(item => item.socketId === socket.id);
     if (disconnectedUser >= 0) {
       users.splice(disconnectedUser, 1);
       io.emit("send users", users);
@@ -66,7 +66,6 @@ io.on("connection", (socket) => {
   });
   socket.on("private message", (anotherSocketId, msg) => {
     cl("private message", anotherSocketId, '-info-', msg)
-    msg.author.socketId = socket.id;
     msg.isOwnMsg = false;
     socket.to(anotherSocketId).emit("private message", msg);
   })
@@ -81,7 +80,7 @@ io.on("connection", (socket) => {
 
 
   socket.on("typing", (typing) => {
-    const whoTypes = users.find(item => item.connectionId === socket.id);
+    const whoTypes = users.find(item => item.socketId === socket.id);
     if (whoTypes) {
       socket.broadcast.emit("typing", { typing: true, nickname: whoTypes.nickname });
     }

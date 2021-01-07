@@ -14,7 +14,7 @@ function App() {
   const [users, setUsers] = useState([]);
   const [displayChatPanel, setDisplayChatPanel] = useState(false);
   const [currentUser, setCurrentUser] = useState({});
-  const [currentChat, setCurrentChat] = useState({ room: "public" });
+  const [currentChat, setCurrentChat] = useState({ room: "public", partnerId: "public" });
   const [tabsToHighlight, setTabsToHighlight] = useState([]);
 
   useEffect(lookForUser, []);
@@ -53,10 +53,14 @@ function App() {
 
   useEffect(() => {
     socket.on("connect", () => {
-      let user = deepCopy(currentUser, (user) => {
-        user.connectionId = socket.id
+      setCurrentUser(lastUser => {
+        let user = deepCopy(lastUser, (user) => {
+          user.socketId = socket.id;
+        })
+        return user
       })
-      socket.emit("registered user", user);
+
+      socket.emit("registered user", currentUser);
     })
   }, [currentUser])
 
@@ -69,6 +73,7 @@ function App() {
   function lookForUser() {
     const user = localStorage.getItem("user");
     const userParsed = JSON.parse(user);
+    //userParsed.socketId = socket.id;
     if (userParsed && userParsed.nickname) {
       setDisplayChatPanel(true);
       setCurrentUser(userParsed);
@@ -79,7 +84,8 @@ function App() {
     const newMsg = {
       text: message,
       author: currentUser,
-      isOwnMsg: true // this prop if true sets the text on the right side of ChatPanel. On server side when broadcasting the message the prop is set to false. 
+      isOwnMsg: true, // this prop if true sets the text on the right side of ChatPanel. On server side when broadcasting the message the prop is set to false. 
+      receiver: currentChat.partnerId
     }
     if (!privateMsg) {
       setMessages(msgs => [...msgs, newMsg]);
@@ -96,9 +102,12 @@ function App() {
     } else {
       let msgs;
       try {
-        msgs = privateMsgs.filter(item => item.author.socketId === currentChat.room || item.author.socketId === currentUser.socketId);
+        msgs = privateMsgs.filter(item => (
+          item.author.socketId === currentChat.room  // the author must be the same than the room identifier. 
+          || (item.author.id === currentUser.id && currentChat.partnerId === item.receiver) // or author must be the User and the receiver the same than the room identifier.
+        ));
       } catch (e) {
-        console.log('error del mapeo', e)
+        console.error("There are not messages yet.", e)
       }
       return <ChatPanel privateMsg={true} messages={msgs} sendMessage={sendMessage} />
     }
@@ -108,7 +117,7 @@ function App() {
     if (user.socketId === socket.id) {//blocks action if userTab is the same than currentUser
       return 0
     } else {
-      setCurrentChat({ room: user.socketId });
+      setCurrentChat({ room: user.socketId, partnerId: user.id });
       setTabsToHighlight(rooms => {
         let filteredRooms = rooms.filter(item => item !== user.socketId);
         return filteredRooms;

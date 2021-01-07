@@ -3,7 +3,7 @@ import UserTab from './userTab/userTab';
 
 function UsersOnline(props) {
   function goToPublicChannel() {
-    props.getUser({ socketId: 'public' })
+    props.getUser({ socketId: 'public', partnerId: 'public'});
   }
   function highlight(id) {
     if (props.tabsToHighlight.includes(id)) {
