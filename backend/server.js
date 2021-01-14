@@ -1,26 +1,43 @@
 const express = require("express");
 const app = express();
-const socket = require("socket.io");
 const cors = require("cors");
-const { formatMsg } = require('./middleware/formats');
 const bodyParser = require('body-parser');
-const MsgService = require('./dbservice/messageService')
+const handleSocket = require('./routes/socketEvents');
+const session = require('express-session');
+const passport = require('passport');
+const bcrypt = require('bcrypt');
+const { signupRouter, loginRouter, logoutRouter } = require('./routes/authRouters');
 
 const PORT = process.env.PORT || 8000;
 
-const cl = console.log;
-
-const users = [];
-
 const corsOptions = {
-  origin: "http://localhost:3000",
+  origin: "*", // "http://localhost:3000",
   optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
 };
 
 app.use(cors(corsOptions));
 app.use(bodyParser.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(session({
+  secret: 'secreto secreto',
+  resave: true,
+  saveUninitialized: true,
+  cookie: {
+    maxAge: 7 * 24 * 60 * 60 * 1000 // Valid for a week.
+  }
+}));
+
+app.use(passport.initialize());
+app.use(passport.session());
+app.use('/signup', signupRouter);
+app.use('/login', loginRouter);
+app.use('/logout', logoutRouter);
+
+
+
 
 app.get("/", (req, res) => {
+  console.log(req.session);
   res.send('I\'m alive').status(200);
 });
 
@@ -30,62 +47,7 @@ app.post("/", (req, res) => {
   res.sendStatus(201);
 });
 
-const io = socket(
-  app.listen(PORT, () => {
-    console.log("listening on port", PORT);
-  }),
-  {//  this obj keeps the options for the socket connections.
-    cors: {
-      origin: "http://localhost:3000",
-      methods: ["GET", "POST"]
-    }
-  }
-);
 
-io.on("connection", (socket) => {
-  console.log("a user connected");
-  //console.log(socket.id, socket.handshake, socket.rooms);
-  socket.on("disconnect", () => {
-
-    let disconnectedUser = users.findIndex(item => item.socketId === socket.id);
-    if (disconnectedUser >= 0) {
-      users.splice(disconnectedUser, 1);
-      io.emit("send users", users);
-    }
-  });
-
-  socket.on("chat message", async (msg) => {
-    cl("chat message", msg)
-    let date = new Date();
-    await MsgService.saveMsg({userId: msg.author.id, message: msg.text, date: date});
-    
-    const formatedMsg = formatMsg(msg);
-    formatedMsg.isOwnMsg = false;
-    socket.broadcast.emit("chat message", formatedMsg);
-
-  });
-  socket.on("private message", (anotherSocketId, msg) => {
-    cl("private message", anotherSocketId, '-info-', msg)
-    msg.isOwnMsg = false;
-    socket.to(anotherSocketId).emit("private message", msg);
-  })
-  socket.on("registered user", (user) => {
-    user.socketId = socket.id;
-    let alreadyHere = users.find(item => item.id === user.id)
-    if (typeof user.nickname === 'string' && !alreadyHere) {
-      users.push(user);
-    }
-    io.emit("send users", users);
-  })
+handleSocket(app, PORT)
 
 
-  socket.on("typing", (typing) => {
-    const whoTypes = users.find(item => item.socketId === socket.id);
-    if (whoTypes) {
-      socket.broadcast.emit("typing", { typing: true, nickname: whoTypes.nickname });
-    }
-  });
-
-
-
-});
