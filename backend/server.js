@@ -5,7 +5,6 @@ const bodyParser = require('body-parser');
 const handleSocket = require('./routes/socketEvents');
 const session = require('express-session');
 const passport = require('passport');
-const bcrypt = require('bcrypt');
 const { signupRouter, loginRouter, logoutRouter } = require('./routes/authRouters');
 
 const PORT = process.env.PORT || 8000;
