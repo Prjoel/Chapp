@@ -6,11 +6,6 @@ function formatMsg(msg) {
   }
 }
 
-function verifyPassword(user, password) {
-  if (user.dataValues.password === password) return true;
-  return false;
-}
-
 function validateUser(user) {
   const validUsername = typeof (user.username) === 'string' && user.username.trim() !== '';
   const validEmail = typeof (user.email) === 'string' && user.email.trim() !== '';
@@ -20,4 +15,4 @@ function validateUser(user) {
 }
 
 
-module.exports = { formatMsg, verifyPassword, validateUser };
+module.exports = { formatMsg, validateUser };
