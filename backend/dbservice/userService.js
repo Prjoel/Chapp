@@ -11,13 +11,23 @@ class UserService {
     }
   }
 
-  static async getUserEmail(userEmail) {
+  static async getUserByEmail(userEmail) {
     try {
       let user = await User.findOne({
         where: {
           email: userEmail
         }
       });
+      console.log('User retrieved!')
+      return user
+    } catch (e) {
+      console.log('Oh no! something really bad happened x0 getuser(userId)', e)
+    }
+  }
+
+  static async getUserById(id) {
+    try {
+      let user = await User.findByPk(id);
       console.log('User retrieved!')
       return user
     } catch (e) {
