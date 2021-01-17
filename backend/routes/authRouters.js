@@ -4,6 +4,7 @@ const passport = require('passport');
 const UserService = require('../dbservice/userService');
 const { validateUser } = require('../utils/formats');
 const bcrypt = require('bcrypt');
+const { isAuthorized } = require('./middleware');
 
 const signupRouter = express.Router();
 const loginRouter = express.Router();
@@ -53,21 +54,30 @@ signupRouter.post('/', async (req, res, next) => {
   });
   res.status(201).send('User saved.');
 })
-/* 
-loginRouter.get('/', (req, res, next) => {
 
+loginRouter.get('/', (req, res, next) => {
+  //console.log('req.session: ', req);
+  console.log('req.user: ', req.isAuthenticated())
+  res.sendStatus(200)
 })
- */
+
 
 loginRouter.post('/',
   passport.authenticate('local', { failureMessage: 'Nooooooooo, wait. YES!' }),
   (req, res, next) => {
+    //console.log('req.user: ')
     res.status(201).send('Todo bien')
   }
 )
+loginRouter.put('/', (req, res, next) => { // route for testing
+  console.log(req.isAuthenticated());
+  res.sendStatus(203)
+})
 
-logoutRouter.post('/',
+  logoutRouter.post('/',
+  //isAuthorized(),
   (req, res, next) => {
+    console.log(req.isAuthenticated())
     req.logout();
     res.sendStatus(200);
   }
