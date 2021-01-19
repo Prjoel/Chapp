@@ -6,6 +6,9 @@ const handleSocket = require('./routes/socketEvents');
 const session = require('express-session');
 const passport = require('passport');
 const { signupRouter, loginRouter, logoutRouter } = require('./routes/authRouters');
+const userInfoRouter = require('./routes/userInfoRouter');
+const { isAuthorized } = require('./routes/middleware');
+
 
 const PORT = process.env.PORT || 8000;
 
@@ -25,18 +28,19 @@ app.use(session({
     maxAge: 7 * 24 * 60 * 60 * 1000 // Valid for a week.
   }
 }));
-
 app.use(passport.initialize());
 app.use(passport.session());
 app.use('/signup', signupRouter);
 app.use('/login', loginRouter);
+app.use('/', isAuthorized);
 app.use('/logout', logoutRouter);
+app.use('/user', userInfoRouter);
 
 
 
 
 app.get("/", (req, res) => {
-  console.log(req.session);
+  //console.log(req.session);
   res.send('I\'m alive').status(200);
 });
 

@@ -4,7 +4,6 @@ const passport = require('passport');
 const UserService = require('../dbservice/userService');
 const { validateUser } = require('../utils/formats');
 const bcrypt = require('bcrypt');
-const { isAuthorized } = require('./middleware');
 
 const signupRouter = express.Router();
 const loginRouter = express.Router();
@@ -74,8 +73,7 @@ loginRouter.put('/', (req, res, next) => { // route for testing
   res.sendStatus(203)
 })
 
-  logoutRouter.post('/',
-  //isAuthorized(),
+logoutRouter.post('/',
   (req, res, next) => {
     console.log(req.isAuthenticated())
     req.logout();
