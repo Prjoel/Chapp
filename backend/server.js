@@ -32,7 +32,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use('/signup', signupRouter);
 app.use('/login', loginRouter);
-app.use('/', isAuthorized);
+app.use(isAuthorized);
 app.use('/logout', logoutRouter);
 app.use('/user', userInfoRouter);
 
@@ -40,7 +40,8 @@ app.use('/user', userInfoRouter);
 
 
 app.get("/", (req, res) => {
-  //console.log(req.session);
+  //console.log('req.baseUrl: ', req.baseUrl, res.location());
+  
   res.send('I\'m alive').status(200);
 });
 
