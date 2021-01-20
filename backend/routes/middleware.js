@@ -1,7 +1,7 @@
 function isAuthorized(req, res, next) {
   const isIt = req.isAuthenticated();
   if (isIt) return next();
-  return res.sendStatus(401);
+  return res.redirect('/login')
 }
 
 module.exports = { isAuthorized }

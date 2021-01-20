@@ -1,4 +1,4 @@
 node_modules
 client/node_modules
-.eslintcache
 backend/.env
+client/.eslintcache
