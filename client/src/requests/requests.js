@@ -10,9 +10,12 @@ export const requests = {
   getUsers() {
     return 1;
   },
-  registerUser() {
-    return console.error("Faux Error.  ");
+  registerUser(user) {
+    return console.error("Faux Error.  ", user );
   },
+  login(user) {
+    return console.log("User to LOG: ", user)
+  }
 };
 
 export const socket = io("http://localhost:2021/");
