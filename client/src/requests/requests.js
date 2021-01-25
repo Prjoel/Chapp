@@ -4,7 +4,7 @@ export const requests = {
   sendMessage(ss) {
     console.log("------ ", ss);
   },
-  getMessages() {
+  checkForSession() {
     return 1;
   },
   getUsers() {
