@@ -13,7 +13,8 @@ const { isAuthorized } = require('./routes/middleware');
 const PORT = process.env.PORT || 8000;
 
 const corsOptions = {
-  origin: "*", // "http://localhost:3000",
+  origin: "http://localhost:3000",
+  credentials: true,
   optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
 };
 
