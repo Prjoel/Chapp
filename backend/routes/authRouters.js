@@ -65,7 +65,7 @@ loginRouter.post('/',
   passport.authenticate('local', { failureMessage: 'Nooooooooo, wait. YES!' }),
   (req, res, next) => {
     //console.log('req.user: ')
-    res.status(201).send('Todo bien')
+    res.sendStatus(200);
   }
 )
 loginRouter.put('/', (req, res, next) => { // route for testing
