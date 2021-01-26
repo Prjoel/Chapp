@@ -7,6 +7,7 @@ import {
   Button,
 } from 'antd';
 import { QuestionCircleOutlined } from '@ant-design/icons';
+import { requests } from "../../requests/requests";
 
 const formItemLayout = {
   labelCol: {
@@ -39,14 +40,13 @@ const tailFormItemLayout = {
   },
 };
 
-const RegistrationForm = () => {
+const RegistrationForm = (props) => {
   const [form] = Form.useForm();
 
-  const onFinish = (values) => {
-    console.log('Received values of form: ', values);
+  const onFinish = async (values) => {
+    let registered = await requests.signup(values);
+    props.handleSuccessSignup(registered);
   };
-
-  const [autoCompleteResult, setAutoCompleteResult] = useState([]);
 
   return (
     <Form
@@ -113,7 +113,7 @@ const RegistrationForm = () => {
       </Form.Item>
 
       <Form.Item
-        name="nickname"
+        name="username"
         label={
           <span>
             Nickname&nbsp;
