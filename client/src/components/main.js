@@ -16,20 +16,21 @@ function Main() {
   const [users, setUsers] = useState([]);
   const [currentChat, setCurrentChat] = useState({ room: "public", partnerId: "public" });
   const [tabsToHighlight, setTabsToHighlight] = useState([]);
-
+  console.log('currentChat: ', currentChat);
   useEffect(() => {
     socket.emit("registered user", currentUser);
-  }, [])
-
-  useEffect(() => {
     socket.on("send users", (users) => {
       setUsers(users);
-    })
-  }, [])
-
-  useEffect(() => {
+    });
     socket.on("chat message", function (msg) {
       setMessages(msgs => [...msgs, msg]);
+    });
+    socket.on("private message", function (msg) {
+      console.log("private message: ", msg);
+      if (currentChat.room !== msg.author.socketId) { // Checking if the room from where the msg comes from is not the same as currentChat.
+        setTabsToHighlight(rooms => [...rooms, msg.author.socketId]) // Passing the rooms to be highlighted. See getUser(), there we remove highlight once userTab is clicked.
+      }
+      setPrivateMsgs(msgs => [...msgs, msg]);
     });
   }, [])
 
@@ -40,16 +41,6 @@ function Main() {
       })
     }
   }, [messages])
-
-  useEffect(() => {
-    socket.on("private message", function (msg) {
-      if (currentChat.room !== msg.author.socketId) { // Checking if the room from where the msg comes from is not the same as currentChat.
-        setTabsToHighlight(rooms => [...rooms, msg.author.socketId]) // Passing the rooms to be highlighted. See getUser(), there we remove highlight once userTab is clicked.
-      }
-      setPrivateMsgs(msgs => [...msgs, msg]);
-    });
-  }, []);
-
 
   function sendMessage(message, privateMsg) {
     const newMsg = {
@@ -63,7 +54,7 @@ function Main() {
       socket.emit("chat message", newMsg);
     } else {
       setPrivateMsgs(msgs => [...msgs, newMsg]);
-      socket.emit("private message", currentChat.room, newMsg)
+      socket.emit("private message", currentChat.room, newMsg);
     }
   }
 
