@@ -6,7 +6,7 @@ function UserTab(props) {
     props.getUser(props.user);
     return 0
   }
-  console.log('usertab props: ', props);
+  
   return (
     <div className="users-online__user-tab">
       <span onClick={getUser} >{props.user.username}</span>
