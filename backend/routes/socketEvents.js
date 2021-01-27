@@ -53,7 +53,7 @@ function handleSocket(server, PORT) {
     socket.on("registered user", (user) => {
       user.socketId = socket.id;
       let alreadyHere = users.find(item => item.id === user.id)
-      if (typeof user.nickname === 'string' && !alreadyHere) {
+      if (typeof user.username === 'string' && !alreadyHere) {
         users.push(user);
       }
       io.emit("send users", users);
@@ -62,7 +62,7 @@ function handleSocket(server, PORT) {
     socket.on("typing", (typing) => {
       const whoTypes = users.find(item => item.socketId === socket.id);
       if (whoTypes) {
-        socket.broadcast.emit("typing", { typing: true, nickname: whoTypes.nickname });
+        socket.broadcast.emit("typing", { typing: true, username: whoTypes.username });
       }
     });
   });

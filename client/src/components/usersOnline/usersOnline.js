@@ -16,7 +16,7 @@ function UsersOnline(props) {
       return "highlighted"
     } else return ""
   }
-
+console.log('props from usersOnline: ', props);
   return (
     <div className="users-online" >
       <span onClick={goToPublicChannel} >Public <span className={ `material-icons md-light md-18 ${shouldHighlight()}`}>forum</span></span>

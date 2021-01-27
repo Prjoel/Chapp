@@ -1,11 +1,11 @@
-import { socket } from '../../requests/requests';
-import { useState, useEffect } from 'react';
+import { SocketContext } from '../main';
+import { useState, useEffect, useContext } from 'react';
 import './chatPanel.css';
 import NewMessage from './newMessage/newMessage';
 import Message from './message/message';
 
 function ChatPanel(props) {
-
+  const socket = useContext(SocketContext);
   const [typing, setTyping] = useState(false);
   const [whoTypes, setWhoTypes] = useState('');
   const [timerId, setTimerId] = useState(1);
@@ -16,7 +16,7 @@ function ChatPanel(props) {
       const id = setTimeout(() => setTyping(false), 1000); // programming a timer to hide the "typing text"
       setTimerId(id); // saving the timer id to be able to cancel it later
       setTyping(true); // this allows the "user typing..." text to be shown 
-      setWhoTypes(typer.nickname);
+      setWhoTypes(typer.username);
     })
   }, [])
 

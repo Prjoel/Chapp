@@ -1,11 +1,12 @@
 import './newMessage.css';
-import { useState } from 'react';
-import { socket } from "../../../requests/requests";
+import { useState, useContext } from 'react';
+import { SocketContext } from "../../main";
 import EmojiPicker from 'emoji-picker-react';
 
 function NewMessage(props) {
   const [newMessage, setNewMessage] = useState('');
   const [showEmojis, setShowEmojis] = useState(false);
+  const socket = useContext(SocketContext);
 
   function onEmojiClick(e, emojiObj) {
     setNewMessage(msg => `${msg}${emojiObj.emoji}`)

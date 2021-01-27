@@ -35,16 +35,8 @@ app.use('/signup', signupRouter);
 app.use('/login', loginRouter);
 app.use(isAuthorized);
 app.use('/logout', logoutRouter);
-app.use('/user', userInfoRouter);
+app.use('/', userInfoRouter);
 
-
-
-
-app.get("/", (req, res) => {
-  //console.log('req.baseUrl: ', req.baseUrl, res.location());
-  
-  res.send('I\'m alive').status(200);
-});
 
 app.post("/", (req, res) => {
   const value = req.body;

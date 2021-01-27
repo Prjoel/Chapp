@@ -7,7 +7,7 @@ import {
   Button,
 } from 'antd';
 import { QuestionCircleOutlined } from '@ant-design/icons';
-import { requests } from "../../requests/requests";
+import requests from "../../requests/requests";
 
 const formItemLayout = {
   labelCol: {
@@ -125,7 +125,7 @@ const RegistrationForm = (props) => {
         rules={[
           {
             required: true,
-            message: 'Please input your nickname!',
+            message: 'Please input your username!',
             whitespace: true,
           },
         ]}

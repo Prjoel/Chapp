@@ -1,21 +1,42 @@
-import { io } from "socket.io-client";
+import { getAPI, postAPI, putAPI, patchAPI, deleteAPI } from "./customFetch";
 
-export const requests = {
-  sendMessage(ss) {
-    console.log("------ ", ss);
+const requests = {
+  path: 'http://localhost:2021',
+
+  async checkForSession() {
+    const path = this.path;
+    try {
+      const userFetched = await getAPI(path);
+      console.log('userFetched ',userFetched );
+      return userFetched;
+    } catch (e) {
+      console.error(e);
+      return false;
+    }
   },
-  checkForSession() {
-    return 1;
+
+  async signup(user) {
+    const path = this.path + '/signup';
+    try {
+      await postAPI(path, user);
+      return true;
+    } catch (e) {
+      console.error(e);
+      return false;
+    }
   },
-  getUsers() {
-    return 1;
-  },
-  registerUser(user) {
-    return console.error("Faux Error.  ", user );
-  },
-  login(user) {
-    return console.log("User to LOG: ", user)
+
+  async login(user) {
+    const path = this.path + '/login';
+    console.error('ENVIADOOO');
+    try {
+      await postAPI(path, user)
+      return true;
+    } catch (e) {
+      console.error(e);
+      return false;
+    }
   }
 };
 
-export const socket = io("http://localhost:2021/");
+export default requests

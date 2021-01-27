@@ -51,7 +51,7 @@ signupRouter.post('/', async (req, res, next) => {
     user.password = hash
     await UserService.saveUser(user);
   });
-  res.status(201).send('User saved.');
+  res.sendStatus(201);
 })
 
 loginRouter.get('/', (req, res, next) => {

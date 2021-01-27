@@ -6,9 +6,10 @@ function UserTab(props) {
     props.getUser(props.user);
     return 0
   }
+  console.log('usertab props: ', props);
   return (
     <div className="users-online__user-tab">
-      <span onClick={getUser} >{props.user.nickname}</span>
+      <span onClick={getUser} >{props.user.username}</span>
       {props.highlight && <span className="material-icons md-light md-18">mark_chat_unread</span>}
     </div>
   );
