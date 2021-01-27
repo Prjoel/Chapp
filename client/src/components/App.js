@@ -14,7 +14,6 @@ function App() {
 
   async function initSession() {
     let foundUser = await requests.checkForSession();
-    console.log('foundUser ', foundUser);
     if (foundUser) {
       setUser(foundUser)
       setDisplayMainPanel(true);
