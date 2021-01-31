@@ -3,7 +3,7 @@ import UserTab from './userTab/userTab';
 
 function UsersOnline(props) {
   function goToPublicChannel() {
-    props.getUser({ socketId: 'public', partnerId: 'public'});
+    props.getUser({ socketId: 'public', partnerId: 'public' });
   }
   function highlight(id) {
     if (props.tabsToHighlight.includes(id)) {
@@ -17,16 +17,24 @@ function UsersOnline(props) {
     } else return ""
   }
 
+  function sortAndDisplay(arr) { // places the currentUser in index 0 of users array. Returns a map of components.
+    const copy = [...arr];
+    const index = copy.findIndex(item => item.id === props.currentUser.id);
+    const removed = copy.splice(index, 1);
+    const sortedArr = [...removed, ...copy];
+    return (sortedArr.map(user => {
+      return <UserTab user={user} key={user.id} getUser={props.getUser} highlight={highlight(user.socketId)} />
+    }))
+  }
+
   return (
     <div className="users-online" >
-      <span onClick={goToPublicChannel} >Public <span className={ `material-icons md-light md-18 ${shouldHighlight()}`}>forum</span></span>
+      <span onClick={goToPublicChannel} >Public <span className={`material-icons md-light md-18 ${shouldHighlight()}`}>forum</span></span>
       {
-        props.users.map(user => {
-          return <UserTab user={user} key={user.id} getUser={props.getUser} highlight={highlight(user.socketId)} />
-        })
+        sortAndDisplay(props.users)
       }
     </div>
   );
 }
 
-export default UsersOnline; 
+export default UsersOnline;

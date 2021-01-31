@@ -28,10 +28,20 @@ const requests = {
 
   async login(user) {
     const path = this.path + '/login';
-    console.error('ENVIADOOO');
     try {
       await postAPI(path, user)
       return true;
+    } catch (e) {
+      console.error(e);
+      return false;
+    }
+  },
+
+  async editUserInfo(user) {
+    const path = this.path + '/user';
+    try {
+      const response = await putAPI(path, user)
+      return response;
     } catch (e) {
       console.error(e);
       return false;

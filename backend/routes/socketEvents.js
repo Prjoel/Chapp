@@ -47,6 +47,7 @@ function handleSocket(server, PORT) {
     socket.on("private message", (anotherSocketId, msg) => {
       console.log("private message", anotherSocketId, '-info-', msg)
       msg.isOwnMsg = false;
+      msg.author.socketId = socket.id;
       socket.to(anotherSocketId).emit("private message", msg);
     });
 

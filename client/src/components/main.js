@@ -16,7 +16,7 @@ function Main() {
   const [users, setUsers] = useState([]);
   const [currentChat, setCurrentChat] = useState({ room: "public", partnerId: "public" });
   const [tabsToHighlight, setTabsToHighlight] = useState([]);
-  console.log('currentChat: ', currentChat);
+  
   useEffect(() => {
     socket.emit("registered user", currentUser);
     socket.on("send users", (users) => {
@@ -76,9 +76,10 @@ function Main() {
     }
   }
 
-  function getUser(user) {
+  function getUser(user, cback) {
     if (user.socketId === socket.id) {//blocks action if userTab is the same than currentUser
-      return 0
+      cback();
+      return 0;
     } else {
       setCurrentChat({ room: user.socketId, partnerId: user.id });
       setTabsToHighlight(rooms => {
@@ -90,7 +91,7 @@ function Main() {
 
   return (
     <div className="main-panel">
-      <UsersOnline users={users} getUser={getUser} tabsToHighlight={tabsToHighlight} />
+      <UsersOnline users={users} currentUser={currentUser} getUser={getUser} tabsToHighlight={tabsToHighlight} />
       {whichChatPanel()}
     </div>
   );
