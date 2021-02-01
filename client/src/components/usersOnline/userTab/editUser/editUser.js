@@ -4,6 +4,7 @@ import {
   Button,
 } from 'antd';
 import requests from '../../../../requests/requests';
+import MoreActions from './moreActions';
 
 const formItemLayout = {
   labelCol: {
@@ -45,54 +46,57 @@ const EditUser = (props) => {
     return response;
   };
 
-console.log('props: ' , props);
+  console.log('props: ', props);
   return (
-    <Form
-      {...formItemLayout}
-      form={form}
-      name="edit info"
-      onFinish={onFinish}
-      initialValues={{
-        username: props.user.username,
-        email: props.user.email
-      }}
-      scrollToFirstError
-    >
-      <Form.Item
-        name="email"
-        label="E-mail"
-        rules={[
-          {
-            type: 'email',
-            message: 'The input is not valid E-mail!',
-          },
-          {
-            required: true,
-            message: 'Please input your E-mail!',
-          },
-        ]}
+    <>
+      <Form
+        {...formItemLayout}
+        form={form}
+        name="edit info"
+        onFinish={onFinish}
+        initialValues={{
+          username: props.user.username,
+          email: props.user.email
+        }}
+        scrollToFirstError
       >
-        <Input bordered={false} />
-      </Form.Item>
+        <Form.Item
+          name="email"
+          label="E-mail"
+          rules={[
+            {
+              type: 'email',
+              message: 'The input is not valid E-mail!',
+            },
+            {
+              required: true,
+              message: 'Please input your E-mail!',
+            },
+          ]}
+        >
+          <Input bordered={false} />
+        </Form.Item>
 
-      <Form.Item
-        name="username"
-        label="Username"
-        rules={[
-          {
-            required: true,
-            message: 'Please input your username!',
-          },
-        ]}
-      >
-        <Input bordered={false} />
-      </Form.Item>
-      <Form.Item {...tailFormItemLayout}>
-        <Button type="primary" htmlType="submit">
-          Update
+        <Form.Item
+          name="username"
+          label="Username"
+          rules={[
+            {
+              required: true,
+              message: 'Please input your username!',
+            },
+          ]}
+        >
+          <Input bordered={false} />
+        </Form.Item>
+        <Form.Item {...tailFormItemLayout}>
+          <Button type="primary" htmlType="submit">
+            Update
         </Button>
-      </Form.Item>
-    </Form>
+        </Form.Item>
+      </Form>
+      <MoreActions />
+    </>
   );
 };
 
