@@ -57,7 +57,17 @@ const requests = {
       console.error(e);
       return false;
     }
+  },
 
+  async changePassword(values) {
+    const path = this.path + '/changePassword';
+    try {
+      const response = await putAPI(path, values);
+      return response;
+    } catch (e) {
+      console.error(e);
+      return false;
+    }
   }
 };
 

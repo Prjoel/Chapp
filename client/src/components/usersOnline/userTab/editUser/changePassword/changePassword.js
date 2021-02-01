@@ -1,5 +1,6 @@
 import { Form, Input, Button, Modal } from 'antd';
 import { useState } from 'react';
+import requests from "../../../../../requests/requests";
 
 const layout = {
   labelCol: {
@@ -18,8 +19,12 @@ const tailLayout = {
 
 const ChangePassword = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const onFinish = (values) => {
-    console.log('Success:', values);
+
+  const onFinish = async (values) => {
+    const response = await requests.changePassword(values);
+    if(response){
+      setIsModalVisible(true)
+    }
   };
 
   const onFinishFailed = (errorInfo) => {
@@ -67,7 +72,7 @@ const ChangePassword = () => {
           </Form.Item>
 
           <Form.Item
-            name="password"
+            name="newPassword"
             label="New Password"
             rules={[
               {
@@ -92,7 +97,7 @@ const ChangePassword = () => {
               },
               ({ getFieldValue }) => ({
                 validator(_, value) {
-                  if (!value || getFieldValue('password') === value) {
+                  if (!value || getFieldValue('newPassword') === value) {
                     return Promise.resolve();
                   }
 
