@@ -6,7 +6,7 @@ const handleSocket = require('./routes/socketEvents');
 const session = require('express-session');
 const passport = require('passport');
 const { signupRouter, loginRouter, logoutRouter } = require('./routes/authRouters');
-const userInfoRouter = require('./routes/userInfoRouter');
+const userRouter = require('./routes/userRouter');
 const { isAuthorized } = require('./routes/middleware');
 
 
@@ -35,7 +35,7 @@ app.use('/signup', signupRouter);
 app.use('/login', loginRouter);
 app.use(isAuthorized);
 app.use('/logout', logoutRouter);
-app.use('/', userInfoRouter);
+app.use('/', userRouter);
 
 
 app.post("/", (req, res) => {

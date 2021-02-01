@@ -5,6 +5,7 @@ import { Main } from './main';
 import NormalLoginForm from './registerUser/antLogin';
 
 const UserContext = createContext({});
+const ToLoginContext = createContext({});
 
 function App() {
   const [displayMainPanel, setDisplayMainPanel] = useState(false);
@@ -27,7 +28,9 @@ function App() {
         displayMainPanel ?
           <div className="main-panel">
             <UserContext.Provider value={user}>
-              <Main />
+              <ToLoginContext.Provider value={setDisplayMainPanel}>
+                <Main />
+              </ToLoginContext.Provider>
             </UserContext.Provider>
           </div>
           : <NormalLoginForm initSession={initSession} />
@@ -36,4 +39,4 @@ function App() {
   )
 }
 
-export { App, UserContext };
+export { App, UserContext, ToLoginContext };

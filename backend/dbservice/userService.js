@@ -70,17 +70,18 @@ class UserService {
     }
   }
 
-  static async deleteuser(userId) {
+  static async deleteUser(userId) {
     try {
       await User.destroy({
         where: {
           id: userId
         }
       })
-      console.log('Users deleted!')
+      console.log('User deleted!')
       return 1
     } catch (e) {
-      console.log('Oh no! something really bad happened xD deleteuser(userId)', e)
+      console.log('Oh no! something really bad happened xD deleteuser(userId)', e);
+      return 0;
     }
   }
 

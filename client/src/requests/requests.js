@@ -1,4 +1,4 @@
-import { getAPI, postAPI, putAPI, patchAPI, deleteAPI } from "./customFetch";
+import { getAPI, postAPI, putAPI, deleteAPI } from "./customFetch";
 
 const requests = {
   path: 'http://localhost:2021',
@@ -7,7 +7,7 @@ const requests = {
     const path = this.path;
     try {
       const userFetched = await getAPI(path);
-      console.log('userFetched ',userFetched );
+      console.log('userFetched ', userFetched);
       return userFetched;
     } catch (e) {
       console.error(e);
@@ -46,6 +46,18 @@ const requests = {
       console.error(e);
       return false;
     }
+  },
+
+  async deleteUser() {
+    const path = this.path + '/user';
+    try {
+      const response = await deleteAPI(path);
+      return response;
+    } catch (e) {
+      console.error(e);
+      return false;
+    }
+
   }
 };
 
