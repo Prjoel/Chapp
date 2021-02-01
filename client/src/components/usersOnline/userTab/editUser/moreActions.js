@@ -3,6 +3,7 @@ import { useContext, useState } from "react";
 import { Modal, Button } from 'antd';
 import { ToLoginContext } from "../../../App";
 import { SocketContext } from "../../../main";
+import ChangePassword from "./changePassword/changePassword";
 
 const MoreActions = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -11,13 +12,18 @@ const MoreActions = () => {
   const redirectToLogin = useContext(ToLoginContext);
   const socket = useContext(SocketContext);
 
+  const logout = () => {
+    socket.close();
+    redirectToLogin(false); // Setting it to false looks counter intuitive but that's how it is.
+  };
+
   const handleDeleteOk = async () => {
     setConfirmLoading(true);
     const response = await requests.deleteUser();
-    if(response) {
-      setConfirmLoading(false);
-      socket.close();
-      redirectToLogin(false); // Setting it to false looks counter intuitive but that's how it is. 
+    setConfirmLoading(false);
+    if (response) {
+      logout();
+      return
     }
   };
 
@@ -43,9 +49,10 @@ const MoreActions = () => {
         More Actions
       </Button>
       <Modal title="More Actions" visible={isModalVisible} footer={null} onCancel={handleCancel} >
-        <Button type="text">
-          Change Password
+        <Button type="text" onClick={logout}>
+          Log Out
         </Button>
+        <ChangePassword />
         <Button type="text" danger onClick={showModalDelete}>
           Delete Account
         </Button>
