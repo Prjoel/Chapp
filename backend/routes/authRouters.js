@@ -8,10 +8,11 @@ const bcrypt = require('bcrypt');
 const signupRouter = express.Router();
 const loginRouter = express.Router();
 const logoutRouter = express.Router();
+const changePasswordRouter = express.Router();
 
 
-async function verifyPassword(password, user) {
-  return (await bcrypt.compare(password, user.dataValues.password))
+async function verifyPassword(password, hash) {
+  return (await bcrypt.compare(password, hash))
 }
 
 passport.use(new LocalStrategy(
@@ -19,7 +20,7 @@ passport.use(new LocalStrategy(
     let user = await UserService.getUserByEmail(email);
     if (!user) return done(null, false);
 
-    let result = await (verifyPassword(password, user));
+    let result = await (verifyPassword(password, user.dataValues.password));
     if (!result) return done(null, false);
 
     return done(null, user);
@@ -68,9 +69,27 @@ loginRouter.post('/',
     res.sendStatus(200);
   }
 )
-loginRouter.put('/', (req, res, next) => { // route for testing
-  console.log(req.isAuthenticated());
-  res.sendStatus(203)
+changePasswordRouter.put('/', async (req, res, next) => {
+  const data = req.body;
+  let user = await UserService.getUserById(req.user.dataValues.id);
+  let result = await (verifyPassword(data.currentPassword, user.dataValues.password));
+  console.log('data: ', data);
+
+  if (result && data.newPassword === data.confirm) {
+    const saltRounds = 10;
+    bcrypt.hash(data.newPassword, saltRounds, async function (err, hash) { // encrypting password
+      // Store hash in your password DB.
+      if (err) next(err);
+      user.password = hash;
+  console.log('User hashed: ', user);
+
+      await UserService.saveUser(user);
+    });
+    return res.sendStatus(200);
+  } else if(!result) {
+    return res.sendStatus(403);
+  }
+  return res.sendStatus(500);
 })
 
 logoutRouter.post('/',
@@ -81,4 +100,6 @@ logoutRouter.post('/',
   }
 )
 
-module.exports = { signupRouter, loginRouter, logoutRouter };
+
+
+module.exports = { signupRouter, loginRouter, logoutRouter, changePasswordRouter };

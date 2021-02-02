@@ -5,7 +5,7 @@ const bodyParser = require('body-parser');
 const handleSocket = require('./routes/socketEvents');
 const session = require('express-session');
 const passport = require('passport');
-const { signupRouter, loginRouter, logoutRouter } = require('./routes/authRouters');
+const { signupRouter, loginRouter, logoutRouter, changePasswordRouter } = require('./routes/authRouters');
 const userRouter = require('./routes/userRouter');
 const { isAuthorized } = require('./routes/middleware');
 
@@ -36,7 +36,7 @@ app.use('/login', loginRouter);
 app.use(isAuthorized);
 app.use('/logout', logoutRouter);
 app.use('/', userRouter);
-
+app.use('/changePassword', changePasswordRouter);
 
 app.post("/", (req, res) => {
   const value = req.body;
