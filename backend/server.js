@@ -8,7 +8,7 @@ const passport = require('passport');
 const { signupRouter, loginRouter, logoutRouter, changePasswordRouter } = require('./routes/authRouters');
 const userRouter = require('./routes/userRouter');
 const { isAuthorized } = require('./routes/middleware');
-
+const path = require('path');
 
 const PORT = process.env.PORT || 8000;
 
@@ -34,14 +34,21 @@ app.use(passport.session());
 app.use('/signup', signupRouter);
 app.use('/login', loginRouter);
 app.use(isAuthorized);
-app.use('/logout', logoutRouter);
+
+app.use(express.static(path.join(__dirname, 'client', 'build')));
+
+app.get('/', function (req, res) {
+  res.sendFile(path.join(__dirname, 'client', 'build', 'index.html'));
+
+});
 app.use('/', userRouter);
+app.use('/logout', logoutRouter);
 app.use('/changePassword', changePasswordRouter);
 
 app.post("/", (req, res) => {
   const value = req.body;
   console.log(value);
-  res.sendStatus(201);
+  res.sendStatus(204);
 });
 
 
