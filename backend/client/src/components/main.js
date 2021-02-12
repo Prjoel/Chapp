@@ -16,9 +16,12 @@ function Main() {
   const [users, setUsers] = useState([]);
   const [currentChat, setCurrentChat] = useState({ room: "public", partnerId: "public" });
   const [tabsToHighlight, setTabsToHighlight] = useState([]);
-  
+
   useEffect(() => {
-    socket.emit("registered user", currentUser);
+    socket.emit("currentUser", currentUser);
+  }, [currentUser]);
+
+  useEffect(() => {
     socket.on("send users", (users) => {
       setUsers(users);
     });

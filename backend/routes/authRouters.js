@@ -4,7 +4,7 @@ const passport = require('passport');
 const UserService = require('../dbservice/userService');
 const { validateUser } = require('../utils/formats');
 const bcrypt = require('bcrypt');
-
+const path = require('path');
 const signupRouter = express.Router();
 const loginRouter = express.Router();
 const logoutRouter = express.Router();
@@ -54,19 +54,17 @@ signupRouter.post('/', async (req, res, next) => {
   });
   res.sendStatus(201);
 })
-
-loginRouter.get('/', (req, res, next) => {
-  //console.log('req.session: ', req);
-  console.log('req.user: ', req.isAuthenticated())
-  res.sendStatus(200)
+// ----------------------------------------
+console.log(path.join(__dirname, '..', 'client', 'public', 'login.html'));
+loginRouter.get('/', function (req, res) {
+  res.sendFile(path.join(__dirname, '..', 'client', 'public', 'login.html'));
 })
-
-
+// ----------------------------------------
 loginRouter.post('/',
-  passport.authenticate('local', { failureMessage: 'Nooooooooo, wait. YES!' }),
+  passport.authenticate('local', { failureMessage: 'Nooooooooo, wait! YES!' }),
   (req, res, next) => {
-    //console.log('req.user: ')
-    res.sendStatus(200);
+    console.log('req.user: ')
+    res.redirect('/');
   }
 )
 changePasswordRouter.put('/', async (req, res, next) => {

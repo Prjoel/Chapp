@@ -10,10 +10,10 @@ const userRouter = require('./routes/userRouter');
 const { isAuthorized } = require('./routes/middleware');
 const path = require('path');
 
+// Config...
 const PORT = process.env.PORT || 8000;
 
 const corsOptions = {
-  origin: "http://localhost:3000",
   credentials: true,
   optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
 };
@@ -22,7 +22,7 @@ app.use(cors(corsOptions));
 app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(session({
-  secret: 'secreto secreto',
+  secret: process.env.SESSION_SECRET,
   resave: true,
   saveUninitialized: true,
   cookie: {
@@ -31,26 +31,27 @@ app.use(session({
 }));
 app.use(passport.initialize());
 app.use(passport.session());
+// -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+
 app.use('/signup', signupRouter);
 app.use('/login', loginRouter);
-app.use(isAuthorized);
 
-app.use(express.static(path.join(__dirname, 'client', 'build')));
+app.use(express.static(path.join(__dirname, 'client', 'build'), { index: false })); // second argument makes express avoid sending a default index.* file.
+
+app.use(isAuthorized);
 
 app.get('/', function (req, res) {
   res.sendFile(path.join(__dirname, 'client', 'build', 'index.html'));
-
 });
-app.use('/', userRouter);
+
+app.use('/user', userRouter);
 app.use('/logout', logoutRouter);
 app.use('/changePassword', changePasswordRouter);
 
-app.post("/", (req, res) => {
-  const value = req.body;
-  console.log(value);
-  res.sendStatus(204);
-});
-
+app.use(function (err, req, res, next) {
+  console.error(err)
+  res.status(500).send('Something broke!')
+})
 
 handleSocket(app, PORT)
 

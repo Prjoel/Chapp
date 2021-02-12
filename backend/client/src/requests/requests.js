@@ -4,7 +4,7 @@ const requests = {
   path: 'http://localhost:2021',
 
   async checkForSession() {
-    const path = this.path;
+    const path = this.path + '/user';
     try {
       const userFetched = await getAPI(path);
       console.log('userFetched ', userFetched);

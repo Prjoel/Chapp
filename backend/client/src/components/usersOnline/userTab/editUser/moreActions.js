@@ -1,7 +1,6 @@
 import requests from '../../../../requests/requests';
 import { useContext, useState } from "react";
 import { Modal, Button } from 'antd';
-import { ToLoginContext } from "../../../App";
 import { SocketContext } from "../../../main";
 import ChangePassword from "./changePassword/changePassword";
 
@@ -9,12 +8,10 @@ const MoreActions = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isModalDeleteVisible, setIsModalDeleteVisible] = useState(false);
   const [confirmLoading, setConfirmLoading] = useState(false);
-  const redirectToLogin = useContext(ToLoginContext);
   const socket = useContext(SocketContext);
 
   const logout = () => {
     socket.close();
-    redirectToLogin(false); // Setting it to false looks counter intuitive but that's how it is.
   };
 
   const handleDeleteOk = async () => {
