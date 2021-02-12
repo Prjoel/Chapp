@@ -9,7 +9,7 @@ userRouter.get('/', async (req, res, next) => {
   res.send(toSend);
 })
 
-userRouter.put('/user', async (req, res, next) => {
+userRouter.put('/', async (req, res, next) => {
   const updateStatus = await UserService.updateUser(req.body, req.user.dataValues.id, req.user.email);
   
   if(updateStatus instanceof Error) {
@@ -18,7 +18,7 @@ userRouter.put('/user', async (req, res, next) => {
   res.send({ updateStatus: updateStatus });
 });
 
-userRouter.delete('/user', async (req, res, next) => {
+userRouter.delete('/', async (req, res, next) => {
   const deleteResult = await UserService.deleteUser(req.user.dataValues.id);
   if(!deleteResult) {
     res.sendStatus(500);

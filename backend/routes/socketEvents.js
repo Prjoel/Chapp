@@ -45,13 +45,12 @@ function handleSocket(server, PORT) {
     });
 
     socket.on("private message", (anotherSocketId, msg) => {
-      console.log("private message", anotherSocketId, '-info-', msg)
       msg.isOwnMsg = false;
       msg.author.socketId = socket.id;
       socket.to(anotherSocketId).emit("private message", msg);
     });
 
-    socket.on("registered user", (user) => {
+    socket.on("currentUser", (user) => {
       user.socketId = socket.id;
       let alreadyHere = users.find(item => item.id === user.id)
       if (typeof user.username === 'string' && !alreadyHere) {
