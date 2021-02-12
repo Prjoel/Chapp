@@ -16,14 +16,12 @@ function App() {
       setUser(foundUser)
     } else return 0;
   }
-  
+
   return (
     <div className="App">
-      <div className="main-panel">
-        <UserContext.Provider value={user}>
-            <Main />
-        </UserContext.Provider>
-      </div>
+      <UserContext.Provider value={user}>
+        <Main />
+      </UserContext.Provider>
     </div>
   )
 }
