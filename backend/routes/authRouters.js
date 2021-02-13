@@ -61,7 +61,11 @@ loginRouter.get('/', function (req, res) {
 })
 // ----------------------------------------
 loginRouter.post('/',
-  passport.authenticate('local', { failureMessage: 'Nooooooooo, wait! YES!' }),
+  passport.authenticate('local', {
+    failureMessage: 'Nooooooooo, wait! YES!',
+    failureRedirect: '/login',
+    successRedirect: '/'
+  }),
   (req, res, next) => {
     console.log('req.user: ')
     res.redirect('/');
@@ -79,12 +83,12 @@ changePasswordRouter.put('/', async (req, res, next) => {
       // Store hash in your password DB.
       if (err) next(err);
       user.password = hash;
-  console.log('User hashed: ', user);
+      console.log('User hashed: ', user);
 
       await UserService.saveUser(user);
     });
     return res.sendStatus(200);
-  } else if(!result) {
+  } else if (!result) {
     return res.sendStatus(403);
   }
   return res.sendStatus(500);
