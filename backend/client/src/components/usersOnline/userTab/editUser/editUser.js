@@ -5,6 +5,7 @@ import {
 } from 'antd';
 import requests from '../../../../requests/requests';
 import MoreActions from './moreActions';
+import 'antd/dist/antd.css';
 
 const formItemLayout = {
   labelCol: {

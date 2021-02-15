@@ -37,6 +37,17 @@ const requests = {
     }
   },
 
+  async logout() {
+    const path = this.path + '/logout';
+    try {
+      await postAPI(path);
+      return true;
+    } catch (e) {
+      console.error(e);
+      return false;
+    }
+  },
+
   async editUserInfo(user) {
     const path = this.path + '/user';
     try {

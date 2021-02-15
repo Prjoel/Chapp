@@ -13,6 +13,7 @@ const MoreActions = () => {
 
   const logout = () => {
     socket.close();
+    requests.logout();
   };
 
   const handleDeleteOk = async () => {
