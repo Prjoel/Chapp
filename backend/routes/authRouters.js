@@ -62,7 +62,6 @@ loginRouter.get('/', function (req, res) {
 // ----------------------------------------
 loginRouter.post('/',
   passport.authenticate('local', {
-    failureMessage: 'Nooooooooo, wait! YES!',
     failureRedirect: '/login',
     successRedirect: '/'
   }),

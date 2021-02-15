@@ -1,6 +1,7 @@
 import requests from '../../../../requests/requests';
 import { useContext, useState } from "react";
 import { Modal, Button } from 'antd';
+import 'antd/dist/antd.css';
 import { SocketContext } from "../../../main";
 import ChangePassword from "./changePassword/changePassword";
 
