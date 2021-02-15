@@ -69,19 +69,17 @@ changePasswordRouter.put('/', async (req, res, next) => {
   const data = req.body;
   let user = await UserService.getUserById(req.user.dataValues.id);
   let result = await (verifyPassword(data.currentPassword, user.dataValues.password));
-  console.log('data: ', data);
-
   if (result && data.newPassword === data.confirm) {
     const saltRounds = 10;
     bcrypt.hash(data.newPassword, saltRounds, async function (err, hash) { // encrypting password
-      // Store hash in your password DB.
       if (err) next(err);
-      user.password = hash;
-      console.log('User hashed: ', user);
-
-      await UserService.saveUser(user);
+      try {
+        await UserService.updatePassword(user.id, hash); // Store hash in your password DB.
+        return res.sendStatus(200);
+      } catch (e) {
+        return next(e);
+      }
     });
-    return res.sendStatus(200);
   } else if (!result) {
     return res.sendStatus(403);
   }
@@ -89,10 +87,8 @@ changePasswordRouter.put('/', async (req, res, next) => {
 })
 
 logoutRouter.post('/',
-  (req, res, next) => {
-    console.log(req.isAuthenticated())
+  (req, res) => {
     req.logout();
-    console.log(req.isAuthenticated())
     res.redirect('/login');
   }
 )
