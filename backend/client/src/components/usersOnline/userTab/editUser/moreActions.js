@@ -11,9 +11,12 @@ const MoreActions = () => {
   const [confirmLoading, setConfirmLoading] = useState(false);
   const socket = useContext(SocketContext);
 
-  const logout = () => {
+  const logout = async () => {
     socket.close();
-    requests.logout();
+    const response = await requests.logout();
+    //if (response) {
+      window.location.href = (requests.path + '/login') 
+    //} 
   };
 
   const handleDeleteOk = async () => {

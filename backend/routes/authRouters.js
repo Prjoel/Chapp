@@ -55,7 +55,6 @@ signupRouter.post('/', async (req, res, next) => {
   res.sendStatus(201);
 })
 // ----------------------------------------
-console.log(path.join(__dirname, '..', 'client', 'public', 'login.html'));
 loginRouter.get('/', function (req, res) {
   res.sendFile(path.join(__dirname, '..', 'client', 'public', 'login.html'));
 })
@@ -64,11 +63,7 @@ loginRouter.post('/',
   passport.authenticate('local', {
     failureRedirect: '/login',
     successRedirect: '/'
-  }),
-  (req, res, next) => {
-    console.log('req.user: ')
-    res.redirect('/');
-  }
+  })
 )
 changePasswordRouter.put('/', async (req, res, next) => {
   const data = req.body;
@@ -97,7 +92,8 @@ logoutRouter.post('/',
   (req, res, next) => {
     console.log(req.isAuthenticated())
     req.logout();
-    res.sendStatus(200);
+    console.log(req.isAuthenticated())
+    res.redirect('/login');
   }
 )
 
