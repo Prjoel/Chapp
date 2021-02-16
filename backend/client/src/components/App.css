@@ -18,21 +18,28 @@ html, body {
   font-family: 'Raleway', Helvetica, sans-serif;
 }
 
+#root {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .App {
   text-align: center;
-  background-color: rgba(93, 1, 121, 0.6);
-  color: rgb(255, 255, 255 );
-  display: flex;
-  justify-content: space-between;
-  height: calc(100vh - 2rem);
-  margin: 1rem;
   box-shadow: 6px 6px 5px rgb(120, 138, 135);
+  width: 95%;
+  height: 95%;
 }
 
 .main-panel {
   display: flex;
   justify-content: space-between;
   width: 100%;
+  height: 100%;
+  background-color: #5d0179; /* same as: rgba(93, 1, 121, 1); */
+  color: white;
 }
 
 .highlighted {
