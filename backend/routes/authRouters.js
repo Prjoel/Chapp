@@ -35,7 +35,11 @@ passport.deserializeUser(async (id, done) => {
   done(null, user)
 })
 
-
+// ----------------------------------------
+signupRouter.get('/', function (req, res) {
+  res.sendFile(path.join(__dirname, '..', 'client', 'public', 'signup.html'));
+})
+// ----------------------------------------
 signupRouter.post('/', async (req, res, next) => {
   let user = req.body;
   if (!validateUser(user)) {
@@ -43,7 +47,7 @@ signupRouter.post('/', async (req, res, next) => {
   };
   let userFound = await UserService.getUserByEmail(user.email);
   if (userFound) {
-    return res.status(409).send('This email is already registered.')
+    return res.status(409).location('/signup').send('This email is already registered.');
   };
   const saltRounds = 10;
   bcrypt.hash(user.password, saltRounds, async function (err, hash) { // encrypting password
@@ -52,7 +56,7 @@ signupRouter.post('/', async (req, res, next) => {
     user.password = hash
     await UserService.saveUser(user);
   });
-  res.sendStatus(201);
+  res.redirect('/login');
 })
 // ----------------------------------------
 loginRouter.get('/', function (req, res) {

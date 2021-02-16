@@ -6,21 +6,22 @@
     <META http-equiv="Content-Style-Type" content="text/css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="./login.css" type="text/css">
-    <title>Login</title>
+    <title>Signup</title>
   </head>
   <body>
     <div class="wrapper">
       <div class="container">
-        <h1>Welcome</h1>
+        <h1>Register</h1>
 
-        <form action="http://localhost:2021/login" method="POST" type class="form">
+        <form action="http://localhost:2021/signup" method="POST" type class="form">
+          <input type="text" name="email" placeholder="Email" />
           <input type="text" name="username" placeholder="Username" />
           <input type="password" name="password" placeholder="Password" />
-          <button type="submit" id="login-button">Login</button>
+          <input type="password" name="confirm" placeholder="Confirm Password" />
+          <button type="submit" id="login-button">Signup</button>
         </form>
-        <p>Not a member? <a href="./signup.html" >Sign up now</a></p>
+        <p>Already a member? <a href="./login.html" >Log in now</a></p>
       </div>
     </div>
   </body>
-  <!-- Copyright (c) 2021 by Lewi Hussey (https://codepen.io/Lewitje/pen/BNNJjo) -->
 </html>
