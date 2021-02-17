@@ -28,12 +28,12 @@ function UsersOnline(props) {
   }
 
   return (
-    <div className="users-online" >
-      <span onClick={goToPublicChannel} >Public <span className={`material-icons md-light md-18 ${shouldHighlight()}`}>forum</span></span>
+    <ul className="users-online" >
+      <h2 id="public-tab" onClick={goToPublicChannel} >Public <span className={`material-icons md-light md-18 ${shouldHighlight()}`}>forum</span></h2>
       {
         sortAndDisplay(props.users)
       }
-    </div>
+    </ul>
   );
 }
 

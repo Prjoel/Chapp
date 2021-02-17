@@ -2,11 +2,18 @@
   width: 100%;
   text-align: left;
   height: 2rem;
-  background-color: rgb(93, 1, 121);
-  margin-bottom: 0.3rem;
-  margin-right: 0.3rem;
+  background-color: #8700b1;
   line-height: 1.5rem;
   border-radius: 3px;
   padding-left: 0.4rem;
   cursor: pointer;
+  overflow: hidden;
+  margin-bottom: 0.25rem;
+  display: flex;
+  justify-content: space-between;
+  text-align: center;
+}
+
+.red-text {
+  color: red;
 }

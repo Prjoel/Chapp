@@ -48,7 +48,7 @@ const ChangePassword = () => {
       <Button type="text" onClick={showModal}>
         Change Password
       </Button>
-      <Modal title="Change Password" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
+      <Modal title="Change Password" visible={isModalVisible} footer={null} onOk={handleOk} onCancel={handleCancel}>
         <Form
           {...layout}
           name="Change Password"
@@ -77,7 +77,7 @@ const ChangePassword = () => {
             rules={[
               {
                 required: true,
-                message: 'Please input your password!',
+                message: 'Please input your new password!',
               },
             ]}
             hasFeedback
@@ -111,7 +111,7 @@ const ChangePassword = () => {
 
           <Form.Item {...tailLayout}>
             <Button type="primary" htmlType="submit">
-              Submit
+              Update
         </Button>
           </Form.Item>
         </Form>

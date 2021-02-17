@@ -59,7 +59,7 @@ const MoreActions = () => {
           Delete Account
         </Button>
         <Modal confirmLoading={confirmLoading} title="Delete Account" visible={isModalDeleteVisible} onOk={handleDeleteOk} onCancel={handleDeleteCancel} >
-          <p>This action cannot be undone. <br /> Are you sure to continue?</p>
+          <p className="red-text" >This action cannot be undone. <br /> Are you sure to continue?</p>
         </Modal>
       </Modal>
     </>

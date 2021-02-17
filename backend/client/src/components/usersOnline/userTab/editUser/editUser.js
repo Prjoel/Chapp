@@ -55,6 +55,7 @@ const EditUser = (props) => {
         form={form}
         name="edit info"
         onFinish={onFinish}
+        preserve={false}
         initialValues={{
           username: props.user.username,
           email: props.user.email
@@ -93,10 +94,11 @@ const EditUser = (props) => {
         <Form.Item {...tailFormItemLayout}>
           <Button type="primary" htmlType="submit">
             Update
-        </Button>
+          </Button>
+          <MoreActions />
         </Form.Item>
+
       </Form>
-      <MoreActions />
     </>
   );
 };
