@@ -1,4 +1,3 @@
-import './newMessage.css';
 import { useState, useContext } from 'react';
 import { SocketContext } from "../../main";
 import EmojiPicker from 'emoji-picker-react';

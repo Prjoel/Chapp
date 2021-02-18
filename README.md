@@ -34,20 +34,21 @@ Check `package.json` (both in `/backend` and `/backend/client`) for more details
 #### Nodejs
 #### A Web Browser 
 
-
+#### Add into `/backend` a .env file following as a guide the .env.example file.
+#### If you are using a PORT different than `2021` you will have to modify `backend\client\src\requests\requests.js` path property in order to match the URI.
 ## Available Scripts
 
 #### In /backend directory you can run:
 
 ### `npm run server`
 
-Runs the server.js file using `nodemon` and `dotenv` dependencies. The `express` application serves the assets from the build directory (created after running `npm run build` command, see below for details).
+Runs the server.js file using `nodemon` and `dotenv` dependencies. The `express` application serves the assets from the build directory (created after running `npm run build` command, this step is necessary to see the app working fully, see below for details).
 
 #### In the project's client directory /backend/client, you can run:
 
 ### `npm start`
 
-Runs the app in the development mode.<br />
+Runs the app in the development mode. This is not recommended since the application will not be synchronized with the backend and requests will not be successful <br />
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
 The page will reload if you make edits.<br />
