@@ -9,7 +9,7 @@ Chapp is a minimalist messaging application. Some of its features are:
 - Basic CRUD operations for user's information.
 - Not persistent messages between sessions.
 
-It consist of the following technologies for the backend: 
+It consists of the following technologies for the backend: 
 - `Socket.IO`
  Useful framework that allows us to transmit data in real time without the need of the common request/response flow of AJAX API. 
 - `Sequelize`
