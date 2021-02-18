@@ -1,14 +1,22 @@
 # Chapp
 ## Chatting application.
 
-Chapp is a minimalist messaging application that consist of the following technologies for the backend: 
-- Socket.IO 
+Chapp is a minimalist messaging application. Some of its features are: 
+- A Public Channel where all connected user can send and read messages.
+- Private messaging.
+- Emojis support.
+- Authentication layer.
+- Basic CRUD operations for user's information.
+- Not persistent messages between sessions.
+
+It consist of the following technologies for the backend: 
+- Socket.IO\n
  Useful framework that allows us to transmit data in real time without the need of the common request/response flow of AJAX API. 
-- Sequelize 
+- Sequelize\n
  ORM for communicating with our Postgres database.
-- Express.js
+- Express.js\n
  Nodejs framework for building Javascript APIs.
-- Passport.js 
+- Passport.js\n
  For local authentication.
 
 And for the frontend we used the following libraries:  
@@ -18,7 +26,8 @@ And for the frontend we used the following libraries:
  Component library for react. It has several beautiful components available. 
 - emoji-picker-react
  Basically a rich React component that simplifies the task of adding emojis to our application.
-  
+
+Check `package.json` (both in `/backend` and `/backend/client`) for more details. 
 ## Requirements to run the app:
 
 #### Postgres

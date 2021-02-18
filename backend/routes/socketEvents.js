@@ -1,4 +1,3 @@
-const MsgService = require('../dbservice/messageService');
 const { formatMsg } = require('../utils/formats');
 const socket = require("socket.io");
 
@@ -17,7 +16,7 @@ function handleSocket(server, PORT) {
     }),
     {//  this obj keeps the options for the socket connections.
       cors: {
-        origin: "http://localhost:3000",
+        origin: false,
         methods: ["GET", "POST"]
       }
     }
@@ -36,9 +35,6 @@ function handleSocket(server, PORT) {
 
     socket.on("chat message", async (msg) => {
       console.log("chat message", msg)
-      let date = new Date();
-      await MsgService.saveMsg({ userId: msg.author.id, message: msg.text, date: date });
-
       const formatedMsg = formatMsg(msg);
       formatedMsg.isOwnMsg = false;
       socket.broadcast.emit("chat message", formatedMsg);
