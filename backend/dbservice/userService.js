@@ -5,9 +5,8 @@ class UserService {
   static async saveUser(user) {
     try {
       await User.create(user);
-      console.log('User added!')
     } catch (e) {
-      console.log('Oh no! something really bad happened x0 saveuser(user)', e)
+      console.error(e)
     }
   }
 
@@ -18,10 +17,9 @@ class UserService {
           email: userEmail
         }
       });
-      console.log('User retrieved!')
       return user
     } catch (e) {
-      console.log('Oh no! something really bad happened x0 getuser(userId)', e)
+      console.error(e)
       return 0;
     }
   }
@@ -29,20 +27,18 @@ class UserService {
   static async getUserById(id) {
     try {
       let user = await User.findByPk(id);
-      console.log('User retrieved!')
       return user
     } catch (e) {
-      console.log('Oh no! something really bad happened x0 getuser(userId)', e)
+      console.error(e)
     }
   }
 
   static async getAllusers() {
     try {
       let users = await User.findAll();
-      console.log('Users retrieved!')
       return users
     } catch (e) {
-      console.log('Oh no! something really bad happened x0 getAllusers()', e)
+      console.error(e)
     }
   }
   /**
@@ -61,8 +57,6 @@ class UserService {
         returning: true, // needed for affectedRows to be populated
         plain: true // makes sure that the returned instances are just plain objects
       });
-      console.log(numberOfAffectedRows)
-      console.log(affectedRows)
       return 1;
     } catch (e) {
       console.error(e);
@@ -90,17 +84,13 @@ class UserService {
         where: {
           id: userId
         }
-      })
-      console.log('User deleted!')
+      });
       return 1
     } catch (e) {
-      console.log('Oh no! something really bad happened xD deleteuser(userId)', e);
+      console.error(e);
       return 0;
     }
   }
-
-  //static async deleteAllusers(user)
-
 }
 
 module.exports = UserService;

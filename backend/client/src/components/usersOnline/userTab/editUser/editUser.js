@@ -43,11 +43,8 @@ const EditUser = (props) => {
 
   const onFinish = async (values) => {
     const response = await requests.editUserInfo(values);
-    console.log('Response:  ', response);
     return response;
   };
-
-  console.log('props: ', props);
   return (
     <>
       <Form

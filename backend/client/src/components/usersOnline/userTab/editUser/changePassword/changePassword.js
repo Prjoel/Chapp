@@ -28,7 +28,7 @@ const ChangePassword = () => {
   };
 
   const onFinishFailed = (errorInfo) => {
-    console.log('Failed:', errorInfo);
+    console.error('Failed:', errorInfo);
   };
 
   const showModal = () => {

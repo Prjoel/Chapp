@@ -23,8 +23,6 @@ function handleSocket(server, PORT) {
   );
 
   io.on("connection", (socket) => {
-    console.log("a user connected");
-    
     socket.on("disconnect", () => {
       let disconnectedUser = users.findIndex(item => item.socketId === socket.id);
       if (disconnectedUser >= 0) {
@@ -34,7 +32,6 @@ function handleSocket(server, PORT) {
     });
 
     socket.on("chat message", async (msg) => {
-      console.log("chat message", msg)
       const formatedMsg = formatMsg(msg);
       formatedMsg.isOwnMsg = false;
       socket.broadcast.emit("chat message", formatedMsg);

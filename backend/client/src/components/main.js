@@ -1,5 +1,4 @@
 import { useState, useEffect, useContext, createContext } from "react";
-//import { deepCopy } from "../utils/utils";
 import requests from "../requests/requests";
 import ChatPanel from "./chatPanel/chatPanel";
 import UsersOnline from "./usersOnline/usersOnline";
@@ -29,7 +28,6 @@ function Main() {
       setMessages(msgs => [...msgs, msg]);
     });
     socket.on("private message", function (msg) {
-      console.log("private message: ", msg);
       if (currentChat.room !== msg.author.socketId) { // Checking if the room from where the msg comes from is not the same as currentChat.
         setTabsToHighlight(rooms => [...rooms, msg.author.socketId]) // Passing the rooms to be highlighted. See getUser(), there we remove highlight once userTab is clicked.
       }

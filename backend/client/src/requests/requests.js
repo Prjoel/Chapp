@@ -7,7 +7,6 @@ const requests = {
     const path = this.path + '/user';
     try {
       const userFetched = await getAPI(path);
-      console.log('userFetched ', userFetched);
       return userFetched;
     } catch (e) {
       console.error(e);
