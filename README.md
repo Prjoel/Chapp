@@ -10,7 +10,7 @@ Chapp is a minimalist messaging application. Some of its features are:
 - Not persistent messages between sessions.
 
 It consist of the following technologies for the backend: 
-- Socket.IO\n
+- Socket.IO 
  Useful framework that allows us to transmit data in real time without the need of the common request/response flow of AJAX API. 
 - Sequelize\n
  ORM for communicating with our Postgres database.
@@ -54,12 +54,6 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 The page will reload if you make edits.<br />
 You will also see any lint errors in the console.
 
-### `npm test`
-
-Launches the test runner in the interactive watch mode.<br />
-There are no tests defined for this application.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
 ### `npm run build`
 
 Builds the app for production to the `build` folder.<br />
@@ -83,5 +77,3 @@ You don’t have to ever use `eject`. The curated feature set is suitable for sm
 ## Learn More
 
 You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
