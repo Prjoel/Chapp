@@ -38,7 +38,7 @@ Check `package.json` (both in `/backend` and `/backend/client`) for more details
 
 #### Add into `./backend` a .env file following as a guide the .env.example file. (If you are using a PORT different than `2021` you will have to modify `./backend/client/src/requests/requests.js` path property in order to match the URI.)
 
-You could avoid next steps running the `./backend/quickSetup.sh` bash script.
+You could avoid next steps running the `./backend/setup.sh` bash script.
 
 #### Install dependencies (both in `./backend` and `./backend/client`).
 #### Run `sequelize db:create` and later `npx sequelize-cli db:migrate`
