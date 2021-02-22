@@ -3,4 +3,3 @@ client/node_modules
 backend/.env
 backend/client/.eslintcache
 backend/client/build/*
-backend/client/package-lock.json
