@@ -1,5 +1,5 @@
 # Chapp
-## Chatting application.
+## Chatting Web Application.
 
 Chapp is a minimalist messaging application. Some of its features are: 
 - A Public Channel where all connected user can send and read messages.
